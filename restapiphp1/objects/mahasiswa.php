@@ -41,7 +41,32 @@ class Mahasiswa{
            return "get ['page'] not found";
         }
         
-    }    
+    }
+    
+    function search_mhs(){
+        if(isset($_GET['keyword'])){
+            $keyword = $_GET['keyword'];
+            
+            // mempersiapkan query yang akan dijalankan
+        $query = "SELECT * FROM " . $this->tabel . "WHERE 
+        nim LIKE '%$keyword%' OR 
+        nama LIKE '%$keyword%' OR 
+        jenis_kelamin LIKE '%$keyword%' OR 
+        tempat_lahir LIKE '%$keyword%' OR 
+        tanggal_lahir LIKE '%$keyword%' OR 
+        alamat LIKE '%$keyword%' OR ";
+        $stmt = $this->kon->prepare($query);
+
+        // mengeksekusi variabel $stmt
+        $stmt->execute();
+
+        // mengembalikan nilai dari variabel $stmt 
+        return $stmt;
+        }else{
+           return "data yang dicari tidak ada";
+        }
+        
+    }
     
     function get_mhs(){
         // mempersiapkan query yang akan dijalankan

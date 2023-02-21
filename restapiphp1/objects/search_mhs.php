@@ -16,13 +16,13 @@ $mahasiswa = new Mahasiswa($dbname);
 // memanggil query get_mhs di kelas mahasiswa
 $stmt = $mahasiswa->search_mhs();
 
-if(is_string($stmt)){
-    echo $stmt;
-    exit; 
+if(isset($_GET['keyword'])){
+    $stmt = $mahasiswa->search_mhs();
+} else {
+    $stmt = $mahasiswa->get_mhs();
 }
-
 $num = $stmt->rowCount();
-$keyword = $_GET['keyword'];
+// $keyword = $_GET['keyword'];
 $respone = [];
 if ($num>0){ 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){

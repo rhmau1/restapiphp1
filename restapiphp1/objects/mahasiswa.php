@@ -38,23 +38,25 @@ class Mahasiswa{
         // mengembalikan nilai dari variabel $stmt 
         return $stmt;
         }else{
-           return "get ['page'] not found";
+            $query1 = "SELECT * FROM " . $this->tabel . "";
+            $result = $this->kon->prepare($query1);
+            $result->execute();            
+            return $result;
         }
         
     }
+    
     
     function search_mhs(){
         if(isset($_GET['keyword'])){
             $keyword = $_GET['keyword'];
             
             // mempersiapkan query yang akan dijalankan
-        $query = "SELECT * FROM " . $this->tabel . "WHERE 
+        $query = "SELECT * FROM " . $this->tabel . " WHERE nama LIKE '%$keyword%' OR 
         nim LIKE '%$keyword%' OR 
-        nama LIKE '%$keyword%' OR 
-        jenis_kelamin LIKE '%$keyword%' OR 
         tempat_lahir LIKE '%$keyword%' OR 
         tanggal_lahir LIKE '%$keyword%' OR 
-        alamat LIKE '%$keyword%' OR ";
+        alamat LIKE '%$keyword%' ";
         $stmt = $this->kon->prepare($query);
 
         // mengeksekusi variabel $stmt
@@ -67,6 +69,25 @@ class Mahasiswa{
         }
         
     }
+
+    function sorting(){
+        if(isset($_GET['kolom'])&&($_GET['order'])){
+            $kolom = $_GET['kolom'];
+            $order = $_GET['order'];
+
+            $query ="SELECT * FROM " . $this->tabel . " ORDER BY $kolom $order";
+            
+            $stmt = $this->kon->prepare($query);
+
+            $stmt->execute();
+            
+            return $stmt;
+        }else{
+            return "order tidak tersedia";
+
+        }
+        
+    }    
     
     function get_mhs(){
         // mempersiapkan query yang akan dijalankan
@@ -184,4 +205,3 @@ class Mahasiswa{
         }return false;
     }
 }
-?>
